@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+
+/*
+ * The whole theme. Rebrand the template by editing the values in `:root`
+ * (and the dark block below it) and nothing else. Every component reads
+ * these through Tailwind utilities: bg-surface, text-muted, border-line,
+ * bg-brand, rounded-card, and so on.
+ *
+ * The defaults are deliberately plain. They are meant to be replaced, not
+ * to look like somebody's brand already.
+ */
+:root {
+  --page: #ffffff;
+  --ink: #101012;
+  --surface: #f7f7f8;
+  --muted: #6b6b73;
+  --line: #e5e5e8;
+
+  /* The one colour most stores need to change. */
+  --brand: #101012;
+  --brand-ink: #ffffff;
+
+  --danger: #b42318;
+  --success: #067647;
+
+  --radius-card-size: 0.75rem;
+  --radius-control-size: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0b0b0c;
+    --ink: #f4f4f5;
+    --surface: #151517;
+    --muted: #a1a1aa;
+    --line: #27272a;
+
+    --brand: #f4f4f5;
+    --brand-ink: #0b0b0c;
+
+    --danger: #f97066;
+    --success: #47cd89;
+  }
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  --radius-card: var(--radius-card-size);
+  --radius-control: var(--radius-control-size);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--page);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Keyboard focus stays visible everywhere. Do not remove this. */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1.25rem;
+}
