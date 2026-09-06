@@ -26,7 +26,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={body.variable}>
-      <body className="font-sans antialiased">
+      {/*
+        suppressHydrationWarning covers this element's own attributes, one level
+        deep, not its children. Password managers, theme switchers and colour
+        pickers all write attributes onto <body> before React hydrates, and
+        without this the first console message a developer sees is a hydration
+        mismatch caused by their own browser. Real mismatches inside the app
+        still report normally.
+      */}
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <Header />
         <main className="container-page py-12">{children}</main>
         <Footer />
