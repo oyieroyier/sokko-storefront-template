@@ -9,3 +9,9 @@ build
 next-env.d.ts
 .DS_Store
 .vercel
+
+# Local agent tooling — not part of the template
+.claude/
+.agents/
+review-hooks/
+.codex-claude-skills-version
