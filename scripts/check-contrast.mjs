@@ -19,7 +19,8 @@ function readTokens(path) {
   const css = readFileSync(path, 'utf8');
   const light = {};
   const dark = {};
-  const pattern = /--([a-z-]+):\s*(?:light-dark\(\s*(#[0-9a-f]{3,8})\s*,\s*(#[0-9a-f]{3,8})\s*\)|(#[0-9a-f]{3,8}))\s*;/gi;
+  const pattern =
+    /--([a-z-]+):\s*(?:light-dark\(\s*(#[0-9a-f]{3,8})\s*,\s*(#[0-9a-f]{3,8})\s*\)|(#[0-9a-f]{3,8}))\s*;/gi;
   for (const [, name, l, d, flat] of css.matchAll(pattern)) {
     light[name] = l ?? flat;
     dark[name] = d ?? flat;
@@ -50,7 +51,11 @@ const contrast = (a, b) => {
 const tint = (fg, bg, ratio) => {
   const [f, b] = [toRgb(fg), toRgb(bg)];
   return `#${[0, 1, 2]
-    .map((i) => Math.round(f[i] * ratio + b[i] * (1 - ratio)).toString(16).padStart(2, '0'))
+    .map((i) =>
+      Math.round(f[i] * ratio + b[i] * (1 - ratio))
+        .toString(16)
+        .padStart(2, '0')
+    )
     .join('')}`;
 };
 
@@ -78,7 +83,9 @@ const PAIRS = [
 
 const themes = [['default', [BASE]]];
 if (existsSync(PRESETS)) {
-  for (const file of readdirSync(PRESETS).filter((f) => f.endsWith('.css')).sort()) {
+  for (const file of readdirSync(PRESETS)
+    .filter((f) => f.endsWith('.css'))
+    .sort()) {
     themes.push([file.replace('.css', ''), [BASE, join(PRESETS, file)]]);
   }
 }
@@ -94,7 +101,10 @@ for (const [name, files] of themes) {
     Object.assign(dark, tokens.dark);
   }
 
-  for (const [mode, tokens] of [['light', light], ['dark', dark]]) {
+  for (const [mode, tokens] of [
+    ['light', light],
+    ['dark', dark]
+  ]) {
     const broken = [];
 
     for (const [label, fg, bg, floor] of PAIRS) {

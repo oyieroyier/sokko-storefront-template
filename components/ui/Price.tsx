@@ -28,9 +28,7 @@ export function Price({
   className?: string;
 }) {
   if (variant) {
-    return (
-      <span className={className}>{formatPrice(variant.priceAmount, variant.currency)}</span>
-    );
+    return <span className={className}>{formatPrice(variant.priceAmount, variant.currency)}</span>;
   }
 
   const listed = fromPrice(product);

@@ -212,9 +212,15 @@ which is why every variable is `NEXT_PUBLIC_`.
 ```bash
 npm run typecheck
 npm run lint
+npm run format:check
 npm run check:contrast
 npm run build
 ```
+
+`format:check` enforces this repo's code style — single quotes, no trailing
+commas, 100 columns — so a contributor running Prettier on defaults cannot
+quietly rewrite every string in the codebase. `npm run format` fixes it.
+Markdown is excluded on purpose: see `.prettierignore` for why.
 
 `check:contrast` reads the theme files directly and holds every text pair, in
 every theme, in both modes, to WCAG AA. It honours a `--focus-ring` override,

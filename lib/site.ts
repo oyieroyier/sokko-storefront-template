@@ -7,8 +7,7 @@ export const site = {
   /** One line under the masthead. Keep it short. */
   tagline: 'Official merch, shipped across Kenya.',
   /** Used for the home page intro and the default share description. */
-  description:
-    'Shop the official collection. Pay by M-Pesa, or in instalments on eligible items.',
+  description: 'Shop the official collection. Pay by M-Pesa, or in instalments on eligible items.',
   /** Your public URL. Drives canonical links and share cards. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   nav: [

@@ -1,0 +1,16 @@
+# Prettier here is for code style only — single quotes, no trailing commas.
+# Markdown is deliberately excluded: prettier pads every table cell to a fixed
+# width and rewrites *emphasis* to _emphasis_, which makes the README hostile
+# to hand-editing and produces enormous diffs for no gain.
+*.md
+
+# Generated or vendored.
+.next/
+node_modules/
+package-lock.json
+docs/screenshots/
+
+# Local agent tooling, not part of the template (see .gitignore).
+.claude/
+.agents/
+review-hooks/

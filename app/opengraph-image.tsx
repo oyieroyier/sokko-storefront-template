@@ -17,41 +17,39 @@ export const contentType = 'image/png';
 
 export default function OpengraphImage() {
   return new ImageResponse(
-    (
-      <div
-        style={{
-          height: '100%',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          backgroundColor: site.chrome.page,
-          color: site.chrome.ink,
-          padding: 80
-        }}
-      >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -2 }}>{site.name}</div>
-          <div style={{ fontSize: 40, color: site.chrome.brand, opacity: 0.7 }}>{site.tagline}</div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div
-            style={{
-              display: 'flex',
-              backgroundColor: site.chrome.brand,
-              color: site.chrome.brandInk,
-              fontSize: 26,
-              padding: '12px 24px',
-              borderRadius: 999
-            }}
-          >
-            Pay by M-Pesa
-          </div>
-          <div style={{ fontSize: 26, opacity: 0.6 }}>Delivered across Kenya</div>
-        </div>
+    <div
+      style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: site.chrome.page,
+        color: site.chrome.ink,
+        padding: 80
+      }}
+    >
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -2 }}>{site.name}</div>
+        <div style={{ fontSize: 40, color: site.chrome.brand, opacity: 0.7 }}>{site.tagline}</div>
       </div>
-    ),
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div
+          style={{
+            display: 'flex',
+            backgroundColor: site.chrome.brand,
+            color: site.chrome.brandInk,
+            fontSize: 26,
+            padding: '12px 24px',
+            borderRadius: 999
+          }}
+        >
+          Pay by M-Pesa
+        </div>
+        <div style={{ fontSize: 26, opacity: 0.6 }}>Delivered across Kenya</div>
+      </div>
+    </div>,
     size
   );
 }
