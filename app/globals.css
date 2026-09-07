@@ -17,9 +17,9 @@
  * real, and every control and empty state.
  */
 @import './theme.css';
-@import './themes/warm.css';
-@import './themes/bold.css';
-@import './themes/mono.css';
+@import './themes/neobrutalist.css';
+@import './themes/editorial.css';
+@import './themes/soft.css';
 
 /*
  * Nothing below is a design decision. This file only wires the tokens in
@@ -127,6 +127,7 @@ html.scheme-dark {
     font-family: var(--display-stack);
     font-weight: var(--display-weight);
     letter-spacing: var(--display-tracking);
+    text-transform: var(--display-case);
   }
 
   /* Keyboard focus stays visible everywhere. Do not remove this. */
@@ -152,6 +153,39 @@ html.scheme-dark {
   }
 }
 
+/*
+ * Stroke weight is a brand decision, not a constant. Tailwind's `border` is a
+ * hardcoded 1px, which is why every preset before this one could only ever be
+ * the same site in different colours: a look built on heavy rules was not
+ * expressible.
+ *
+ * These re-point the border utilities the app actually uses at a token. They
+ * are plain rules in the utilities layer rather than `@utility`, because
+ * `@utility border` collides with Tailwind's own and is silently dropped —
+ * the rule never reaches the stylesheet and every border stays 1px.
+ */
+@layer utilities {
+  .border {
+    border-width: var(--border-width);
+  }
+
+  .border-t {
+    border-top-width: var(--border-width);
+  }
+
+  .border-b {
+    border-bottom-width: var(--border-width);
+  }
+
+  .border-l {
+    border-left-width: var(--border-width);
+  }
+
+  .border-x {
+    border-inline-width: var(--border-width);
+  }
+}
+
 @utility container-page {
   margin-inline: auto;
   width: 100%;
@@ -164,6 +198,12 @@ html.scheme-dark {
   font-family: var(--display-stack);
   font-weight: var(--display-weight);
   letter-spacing: var(--display-tracking);
+  text-transform: var(--display-case);
+}
+
+/* Control text. A loud theme sets buttons heavier than its body copy. */
+@utility type-control {
+  font-weight: var(--control-weight);
 }
 
 /* State changes: hovers, presses, focus. One curve, one duration. */

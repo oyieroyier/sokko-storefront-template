@@ -98,7 +98,7 @@ export function ProductImage({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-card border border-line bg-surface',
+        'relative overflow-hidden rounded-card border border-line bg-surface shadow-card',
         ratio === 'tile' ? 'aspect-tile' : 'aspect-square',
         frame && 'p-3 sm:p-4',
         className

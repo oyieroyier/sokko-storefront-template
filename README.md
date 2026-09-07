@@ -8,10 +8,12 @@ config, and it is the client's store.
 
 ![The same storefront under all four themes](docs/screenshots/themes.png)
 
-One component tree, four identities: **Studio**, **Warm**, **Bold**, **Mono**.
-Nothing above is a fork — colour, radius, tile ratio, elevation and rhythm are
-all tokens, and the only other difference is the typeface. Screenshots run
-against a live Sokko catalogue.
+One component tree, four identities: **Minimal**, **Neobrutalist**,
+**Editorial**, **Soft**. Nothing above is a fork. Stroke weight, colour, radius,
+tile ratio, elevation, case and rhythm are all tokens, and the only other
+difference is the typeface — the uppercase headings, 3px rules and hard offset
+shadows on the top right are the same components as the top left. Screenshots
+run against a live Sokko catalogue.
 
 ## What Sokko owns, what you own
 
@@ -50,7 +52,7 @@ A few files carry the branding.
 
 | File | What to change |
 | --- | --- |
-| `app/theme.css` | The whole visual identity. Colour, radius, image ratio, elevation, motion, spacing rhythm and the display setting. Every colour is `light-dark(light, dark)`, one line per token, so you cannot change a colour and forget its dark half. |
+| `app/theme.css` | The whole visual identity. Colour, stroke weight, radius, image ratio, elevation, motion, spacing rhythm and the display setting. Every colour is `light-dark(light, dark)`, one line per token, so you cannot change a colour and forget its dark half. |
 | `app/fonts.ts` | The typeface. Two roles: `--font-body` is what you read, `--font-title` is what you notice. |
 | `app/layout.tsx` | One line: the theme class, if you are wearing a preset rather than editing `app/theme.css` directly. |
 | `lib/site.ts` | Name, tagline, description, nav, social links, public URL, and the three chrome colours that a CSS variable cannot reach. |
@@ -60,20 +62,20 @@ the handful of tokens it overrides, so the file is also the explanation.
 
 | Class | Identity | Display face |
 | --- | --- | --- |
-| *(none)* | [Studio](docs/screenshots/studio.png) — restrained, warm-neutral, monochrome brand | Bricolage Grotesque |
-| `theme-warm` | [Warm](docs/screenshots/warm.png) — cream paper, clay brand, tall tiles, round | Fraunces |
-| `theme-bold` | [Bold](docs/screenshots/bold.png) — electric brand, pill controls, heavy display | Space Grotesk |
-| `theme-mono` | [Mono](docs/screenshots/mono.png) — editorial, square corners, no elevation | Inter — nothing to change |
+| *(none)* | [Minimal](docs/screenshots/minimal.png) — restrained, warm-neutral, monochrome brand | Bricolage Grotesque |
+| `theme-neobrutalist` | [Neobrutalist](docs/screenshots/neobrutalist.png) — acid yellow, 3px ink rules, hard offset shadows, shouted headings | Space Grotesk |
+| `theme-editorial` | [Editorial](docs/screenshots/editorial.png) — serif, hairline rules, no elevation, wide measure | Fraunces |
+| `theme-soft` | [Soft](docs/screenshots/soft.png) — pill controls, heavy radii, diffuse warm shadow | Plus Jakarta Sans |
 
 Wearing one is two lines, not one, because a theme is colour *and* typeface and
 CSS cannot reach the second:
 
 ```tsx
 // app/layout.tsx
-const theme = 'theme-warm';
+const theme = 'theme-neobrutalist';
 
 // app/fonts.ts
-export const displayFont = Fraunces({ subsets: ['latin'], variable: '--font-title' });
+export const displayFont = Space_Grotesk({ subsets: ['latin'], variable: '--font-title' });
 ```
 
 Skipping the font line is survivable, not correct: you get the preset's colour
@@ -215,7 +217,9 @@ npm run build
 ```
 
 `check:contrast` reads the theme files directly and holds every text pair, in
-every theme, in both modes, to WCAG AA. Add a preset to `app/themes/` and it
+every theme, in both modes, to WCAG AA. It honours a `--focus-ring` override,
+which a theme with an acid-yellow brand needs: the ring cannot be drawn in a
+colour that fails 3:1 against the page. Add a preset to `app/themes/` and it
 is covered automatically. It is the check that catches the colour nobody
 looks at: an error line on a card, or text inside a tinted badge.
 

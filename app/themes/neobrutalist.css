@@ -1,0 +1,53 @@
+/*
+ * Preset: "Neobrutalist". Acid yellow, 3px ink rules, hard offset shadows,
+ * shouted headings. Nothing is soft and nothing floats — the shadow is a
+ * solid block of ink at an offset, not a blur.
+ *
+ * Wearing it takes two lines:
+ *
+ *   app/layout.tsx   const theme = 'theme-neobrutalist';
+ *   app/fonts.ts     const displayFont = Space_Grotesk({ ... })
+ *
+ * This is the preset that justifies --border-width existing. Before it, every
+ * theme was the same site in different colours, because stroke weight was a
+ * hardcoded 1px in Tailwind's `border` and no token could reach it.
+ *
+ * Overrides only. Anything absent is inherited from app/theme.css.
+ */
+.theme-neobrutalist {
+  --page: light-dark(#fdfcf7, #14140f);
+  --ink: light-dark(#000000, #fdfcf7);
+  --surface: light-dark(#ffffff, #1f1f18);
+  --muted: light-dark(#4a4a42, #b4b4a6);
+  --line: light-dark(#000000, #fdfcf7);
+  --line-strong: light-dark(#000000, #fdfcf7);
+
+  /* Acid yellow reads as brand at any size and takes black ink cleanly. */
+  --brand: light-dark(#ffe500, #ffe500);
+  --brand-ink: light-dark(#000000, #000000);
+
+  --danger: light-dark(#c0180d, #ff6b5e);
+  --success: light-dark(#0a6b3d, #3ddb8a);
+
+  /* The focus ring cannot be yellow on a yellow button. */
+  --focus-ring: light-dark(#000000, #fdfcf7);
+
+  /* Nothing is rounded. Everything is drawn with a heavy pen. */
+  --border-width: 3px;
+  --radius-card-size: 0;
+  --radius-control-size: 0;
+  --radius-pill-size: 0;
+  --tile-aspect: 1 / 1;
+
+  /* Ink at an offset, no blur, no spread. The whole look lives here. */
+  --elevation-card: 6px 6px 0 0 var(--ink);
+  --elevation-raised: 10px 10px 0 0 var(--ink);
+
+  --display-weight: 800;
+  --display-tracking: -0.03em;
+  --display-case: uppercase;
+  --control-weight: 700;
+
+  --motion-fast: 80ms;
+  --motion-base: 120ms;
+}

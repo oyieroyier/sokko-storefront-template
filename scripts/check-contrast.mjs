@@ -68,7 +68,11 @@ const PAIRS = [
   ['error on a card', 'danger', 'surface', 4.5],
   ['error on the page', 'danger', 'page', 4.5],
   ['success text', 'success', 'page', 4.5],
-  ['focus ring', 'brand', 'page', 3],
+  // A theme whose brand is acid yellow cannot draw its focus ring in the brand
+  // colour, so --focus-ring is an override worth honouring. app/theme.css sets
+  // it to var(--brand), which is not a literal this can read, hence the
+  // fallback rather than a default.
+  ['focus ring', ['focus-ring', 'brand'], 'page', 3],
   ['product frame', 'line-strong', 'page', 3]
 ];
 
@@ -94,7 +98,9 @@ for (const [name, files] of themes) {
     const broken = [];
 
     for (const [label, fg, bg, floor] of PAIRS) {
-      const ratio = contrast(tokens[fg], tokens[bg]);
+      const names = Array.isArray(fg) ? fg : [fg];
+      const value = names.map((name) => tokens[name]).find(Boolean);
+      const ratio = contrast(value, tokens[bg]);
       if (ratio < floor) broken.push(`${label} ${ratio.toFixed(2)} (needs ${floor})`);
     }
 

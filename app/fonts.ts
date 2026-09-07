@@ -12,14 +12,15 @@
  * and geometry; it cannot reach the typeface, so a preset is two lines, not
  * one — the class in app/layout.tsx, and the display import below:
  *
- *   default (no class)  Inter + Bricolage_Grotesque
- *   theme-warm          Inter + Fraunces
- *   theme-bold          Inter + Space_Grotesk
- *   theme-mono          Inter + Inter          (one line: no face to change)
+ *   default (no class)   Inter + Bricolage_Grotesque
+ *   theme-neobrutalist   Inter + Space_Grotesk
+ *   theme-editorial      Inter + Fraunces
+ *   theme-soft           Inter + Plus_Jakarta_Sans
  *
- * All four are next/font/google names — change the import and the identifier
- * and nothing else moves. Skipping the font line is survivable, not correct:
- * you get the preset's colour under the default grotesk.
+ * All are next/font/google names — change the import and the identifier and
+ * nothing else moves. Skipping the font line is survivable, not correct: you
+ * get the preset's colour under the default grotesk, which for Editorial in
+ * particular is most of the theme missing.
  */
 import { Bricolage_Grotesque, Inter } from 'next/font/google';
 

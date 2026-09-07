@@ -1,5 +1,5 @@
 /*
- * The default theme: "Studio". Restrained, warm-neutral, monochrome brand.
+ * The default theme: "Minimal". Restrained, warm-neutral, monochrome brand.
  *
  * This file is the whole visual identity. Nothing in app/ or components/
  * hardcodes a colour, a radius, a shadow, a duration or an image ratio, so
@@ -13,12 +13,12 @@
  *
  * To try another identity, put a preset's class on <html> in app/layout.tsx:
  *
- *   theme-warm   warm paper, terracotta, soft and round
- *   theme-bold   high contrast, electric brand, pill controls
- *   theme-mono   editorial, square corners, no elevation
+ *   theme-neobrutalist   acid yellow, 3px ink rules, hard offset shadows
+ *   theme-editorial      serif, hairline rules, no elevation, wide measure
+ *   theme-soft           pill controls, heavy radii, diffuse warm shadow
  *
  * Each preset overrides only what it changes, so everything it leaves alone
- * is still this file. Two of the three also want a display face, which is the
+ * is still this file. All three also want a display face, which is the
  * one brand decision that cannot live in CSS: it is in app/fonts.ts, one
  * import per role. Read the preset's header; it names the pairing.
  *
@@ -53,6 +53,9 @@
   --focus-ring: var(--brand);
 
   /* Geometry. Radius and image ratio carry more brand than colour does. */
+  /* Stroke weight. A look built on heavy rules needs this to be a token. */
+  --border-width: 1px;
+
   --radius-card-size: 0.875rem;
   --radius-control-size: 0.5rem;
   --radius-pill-size: 9999px;
@@ -76,6 +79,9 @@
   /* Type. The face comes from app/fonts.ts; the setting comes from here. */
   --display-weight: 600;
   --display-tracking: -0.022em;
+  /* `uppercase` is what separates a loud theme from a quiet one. */
+  --display-case: none;
+  --control-weight: 500;
 
   /* Motion. One easing curve for state, one for things that arrive. */
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);

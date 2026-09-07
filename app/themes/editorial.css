@@ -1,0 +1,50 @@
+/*
+ * Preset: "Editorial". A magazine, not a shop. Serif headings at a size the
+ * default would never dare, hairline rules, no elevation at all, a wide
+ * measure and a lot of air.
+ *
+ * Wearing it takes two lines:
+ *
+ *   app/layout.tsx   const theme = 'theme-editorial';
+ *   app/fonts.ts     const displayFont = Fraunces({ ... })
+ *
+ * The font is not optional here. Editorial without the serif is just the
+ * default theme with the shadows switched off.
+ *
+ * Overrides only. Anything absent is inherited from app/theme.css.
+ */
+.theme-editorial {
+  --page: light-dark(#fffefb, #0b0b0a);
+  --ink: light-dark(#111110, #f5f3ee);
+  --surface: light-dark(#f7f5f0, #131312);
+  --muted: light-dark(#6b675e, #a8a396);
+  --line: light-dark(#ddd8cc, #26251f);
+  --line-strong: light-dark(#8c887c, #6b675d);
+
+  /* Ink as brand. A magazine does not have a button colour. */
+  --brand: light-dark(#111110, #f5f3ee);
+  --brand-ink: light-dark(#fffefb, #0b0b0a);
+
+  --danger: light-dark(#8f1d14, #f08b7d);
+  --success: light-dark(#2f5d3a, #74c48a);
+
+  --border-width: 1px;
+  --radius-card-size: 0;
+  --radius-control-size: 0;
+  --radius-pill-size: 0;
+  --tile-aspect: 3 / 4;
+
+  /* Nothing floats. The rules and the whitespace do all the work. */
+  --elevation-card: none;
+  --elevation-raised: none;
+
+  /* A serif sits lower and wider than a grotesk. Ease off the tracking. */
+  --display-weight: 400;
+  --display-tracking: -0.005em;
+  --control-weight: 400;
+
+  --section-gap: 7rem;
+  --block-gap: 2.5rem;
+  --page-max: 82rem;
+  --page-gutter: 2rem;
+}

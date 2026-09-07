@@ -1,0 +1,48 @@
+/*
+ * Preset: "Soft". Pill everything, heavy radii, diffuse warm shadow, no hard
+ * edges anywhere. The friendliest the token set can be.
+ *
+ * Wearing it takes two lines:
+ *
+ *   app/layout.tsx   const theme = 'theme-soft';
+ *   app/fonts.ts     const displayFont = Plus_Jakarta_Sans({ ... })
+ *
+ * Overrides only. Anything absent is inherited from app/theme.css.
+ */
+.theme-soft {
+  --page: light-dark(#fef8f4, #17120f);
+  --ink: light-dark(#2b211c, #f7ece4);
+  --surface: light-dark(#fdeee5, #221a15);
+  --muted: light-dark(#7a6659, #b8a396);
+  --line: light-dark(#f3ddd0, #2f231c);
+  --line-strong: light-dark(#a08c7e, #7d685a);
+
+  --brand: light-dark(#c2410c, #fb923c);
+  --brand-ink: light-dark(#fff8f4, #17120f);
+
+  --danger: light-dark(#a81f1f, #f7938a);
+  --success: light-dark(#3f6b45, #7fce93);
+
+  /* Every corner is generous, and controls are fully round. */
+  --border-width: 1px;
+  --radius-card-size: 1.75rem;
+  --radius-control-size: 9999px;
+  --tile-aspect: 4 / 5;
+
+  /* Warm and diffuse: a shadow that reads as light, not as a drop. */
+  --elevation-card:
+    0 0 0 1px light-dark(transparent, rgb(255 236 224 / 0.05)),
+    0 2px 6px light-dark(rgb(120 70 40 / 0.06), transparent),
+    0 20px 44px -20px light-dark(rgb(120 70 40 / 0.22), rgb(0 0 0 / 0.75));
+  --elevation-raised:
+    0 0 0 1px light-dark(transparent, rgb(255 236 224 / 0.07)),
+    0 4px 12px light-dark(rgb(120 70 40 / 0.09), transparent),
+    0 40px 80px -30px light-dark(rgb(120 70 40 / 0.3), rgb(0 0 0 / 0.9));
+
+  --display-weight: 700;
+  --display-tracking: -0.018em;
+  --control-weight: 600;
+
+  --motion-base: 240ms;
+  --section-gap: 5rem;
+}

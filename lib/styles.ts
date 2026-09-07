@@ -4,7 +4,7 @@
  * app/theme.css rebrand the whole site.
  */
 export const control =
-  'inline-flex items-center justify-center gap-2 rounded-control px-5 py-2.5 text-sm font-medium transition-brand disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50';
+  'inline-flex items-center justify-center gap-2 rounded-control px-5 py-2.5 text-sm type-control transition-brand disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50';
 
 export const primaryButton = `${control} bg-brand text-brand-ink hover:opacity-90 active:scale-[0.98]`;
 

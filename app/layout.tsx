@@ -35,7 +35,7 @@ export const viewport: Viewport = {
  * instead — and read the preset's file header, because two of the three also
  * expect a display face swapped in app/fonts.ts.
  *
- *   'theme-warm' | 'theme-bold' | 'theme-mono'
+ *   'theme-neobrutalist' | 'theme-editorial' | 'theme-soft'
  *
  * It sits on <html> so it reaches the portalled cart drawer too.
  */

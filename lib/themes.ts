@@ -15,28 +15,28 @@ export type Preset = {
 
 export const presets: Preset[] = [
   {
-    name: 'Studio',
+    name: 'Minimal',
     className: '',
     face: 'Bricolage Grotesque',
     note: 'restrained, warm-neutral, monochrome brand'
   },
   {
-    name: 'Warm',
-    className: 'theme-warm',
-    face: 'Fraunces',
-    note: 'cream paper, clay brand, tall tiles, round'
-  },
-  {
-    name: 'Bold',
-    className: 'theme-bold',
+    name: 'Neobrutalist',
+    className: 'theme-neobrutalist',
     face: 'Space Grotesk',
-    note: 'electric brand, pill controls, heavy display'
+    note: 'acid yellow, 3px ink rules, hard offset shadows'
   },
   {
-    name: 'Mono',
-    className: 'theme-mono',
-    face: 'Inter',
-    note: 'editorial, square corners, no elevation'
+    name: 'Editorial',
+    className: 'theme-editorial',
+    face: 'Fraunces',
+    note: 'serif, hairline rules, no elevation, wide measure'
+  },
+  {
+    name: 'Soft',
+    className: 'theme-soft',
+    face: 'Plus Jakarta Sans',
+    note: 'pill controls, heavy radii, diffuse warm shadow'
   }
 ];
 
