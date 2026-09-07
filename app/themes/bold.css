@@ -1,0 +1,46 @@
+/*
+ * Preset: "Bold". White page, electric brand, pill controls, heavy display.
+ * Designed to pair with the Space Grotesk display face (see app/fonts.ts).
+ *
+ * Use it by changing one line in app/globals.css:
+ *   @import './themes/bold.css';
+ */
+@import '../theme.css';
+
+:root {
+  --page: light-dark(#ffffff, #08080a);
+  --ink: light-dark(#08080a, #fafafa);
+  --surface: light-dark(#f4f4f6, #131318);
+  --muted: light-dark(#56565f, #9a9aa6);
+  --line: light-dark(#e2e2e8, #2a2a33);
+  --line-strong: light-dark(#909096, #64646d);
+
+  /* The dark value is lifted off the light-mode indigo so --brand-ink still
+     reads on it. */
+  --brand: light-dark(#2f21e6, #8f82ff);
+  --brand-ink: light-dark(#ffffff, #08080a);
+
+  /* Both darkened from the obvious red/green: on this theme's near-white
+     surface the brighter pair misses 4.5:1, and --success is used as text
+     inside a tinted badge, which is the tightest case in the kit. */
+  --danger: light-dark(#c9291d, #f97066);
+  --success: light-dark(#047857, #47cd89);
+
+  --radius-card-size: 1rem;
+  /* Pill controls. The single change that does the most to this identity. */
+  --radius-control-size: 9999px;
+
+  --display-weight: 800;
+  --display-tracking: -0.04em;
+
+  --elevation-card:
+    0 0 0 1px light-dark(transparent, rgb(143 130 255 / 0.16)),
+    0 2px 4px light-dark(rgb(8 8 10 / 0.05), transparent),
+    0 18px 36px -18px light-dark(rgb(47 33 230 / 0.22), rgb(0 0 0 / 0.8));
+  --elevation-raised:
+    0 0 0 1px light-dark(transparent, rgb(143 130 255 / 0.22)),
+    0 4px 12px light-dark(rgb(8 8 10 / 0.08), transparent),
+    0 36px 72px -28px light-dark(rgb(47 33 230 / 0.32), rgb(0 0 0 / 0.92));
+
+  --motion-base: 160ms;
+}

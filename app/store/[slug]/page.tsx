@@ -10,6 +10,8 @@ import { StoreError } from '@/components/store/StoreError';
 import { site } from '@/lib/site';
 import { loadProduct, loadRelated, storefront } from '@/lib/sokko';
 
+// Next requires a literal here. Keep it in step with CATALOGUE_TTL in
+// lib/sokko.ts, which caches the Sokko response itself.
 export const revalidate = 300;
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -53,43 +55,50 @@ export default async function ProductPage({ params }: PageProps) {
   const related = await loadRelated(slug);
   const price = fromPrice(product);
   const [image] = storefront.productImages(product);
+  const url = `${site.url}/store/${product.slug}`;
 
   return (
-    <div className="space-y-20">
-      <nav className="text-sm text-muted">
-        <Link href="/store" className="hover:text-ink">
-          Store
-        </Link>
-        <span className="px-2">/</span>
-        <span className="text-ink">{product.title}</span>
-      </nav>
+    <div className="space-y-section">
+      {/* The breadcrumb belongs to the product, so it sits a block above it
+          and not a whole section away. */}
+      <div className="space-y-block">
+        <nav aria-label="Breadcrumb" className="text-sm text-muted">
+          <Link href="/store" className="transition-brand hover:text-ink">
+            Store
+          </Link>
+          <span aria-hidden="true" className="px-2">
+            /
+          </span>
+          <span className="text-ink">{product.title}</span>
+        </nav>
 
-      <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-        <Gallery product={product} />
+        <div className="grid gap-block lg:grid-cols-2 lg:gap-16">
+          <Gallery product={product} />
 
-        <div className="space-y-8">
-          {/* Title and description render on the server: they are the page. */}
-          <div className="space-y-4">
-            <h1 className="text-3xl font-semibold tracking-tight">{product.title}</h1>
-            {product.description && (
-              <p className="leading-relaxed whitespace-pre-line text-muted">
-                {product.description}
-              </p>
-            )}
+          <div className="space-y-block">
+            {/* Title and description render on the server: they are the page. */}
+            <div className="space-y-tight">
+              <h1 className="text-3xl text-balance">{product.title}</h1>
+              {product.description && (
+                <p className="leading-relaxed whitespace-pre-line text-muted">
+                  {product.description}
+                </p>
+              )}
+            </div>
+
+            <BuyPanel product={product} />
           </div>
-
-          <BuyPanel product={product} />
         </div>
       </div>
 
       {related.length > 0 && (
-        <section className="space-y-8">
+        <section className="space-y-block">
           {/*
             Drawn from this store's own catalogue. Sokko's recommender covers
             the whole marketplace, which on your domain could put another
             seller's product under your masthead.
           */}
-          <h2 className="text-xl font-semibold tracking-tight">More from the store</h2>
+          <h2 className="text-xl">More from the store</h2>
           <CatalogueGrid products={related} />
         </section>
       )}
@@ -97,22 +106,33 @@ export default async function ProductPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: product.title,
-            description: product.description,
-            image: image ? [image] : undefined,
-            offers: price
-              ? {
-                  '@type': 'Offer',
-                  // ADR-0005: KES amounts are whole shillings. Do not divide.
-                  price: price.amount,
-                  priceCurrency: price.currency,
-                  url: `${site.url}/store/${product.slug}`
-                }
-              : undefined
-          })
+          __html: JSON.stringify([
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Product',
+              name: product.title,
+              description: product.description,
+              image: image ? [image] : undefined,
+              offers: price
+                ? {
+                    '@type': 'Offer',
+                    // ADR-0005: KES amounts are whole shillings. Do not divide.
+                    price: price.amount,
+                    priceCurrency: price.currency,
+                    url
+                  }
+                : undefined
+            },
+            {
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: site.name, item: site.url },
+                { '@type': 'ListItem', position: 2, name: 'Store', item: `${site.url}/store` },
+                { '@type': 'ListItem', position: 3, name: product.title, item: url }
+              ]
+            }
+          ])
         }}
       />
     </div>

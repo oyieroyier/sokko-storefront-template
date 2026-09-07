@@ -1,0 +1,46 @@
+/*
+ * Preset: "Warm". Cream paper, clay brand, generous radii, tall tiles.
+ * Designed to pair with the Fraunces display face (see app/fonts.ts).
+ *
+ * Use it by changing one line in app/globals.css:
+ *   @import './themes/warm.css';
+ *
+ * Every preset imports the default and overrides only what it changes, so
+ * the list below is exactly what makes this theme a different business.
+ */
+@import '../theme.css';
+
+:root {
+  --page: light-dark(#fdfbf7, #16130f);
+  --ink: light-dark(#23201c, #f2ece2);
+  --surface: light-dark(#f4efe6, #1f1b16);
+  --muted: light-dark(#6f675c, #a89c8b);
+  --line: light-dark(#e7dfd1, #2e2822);
+  --line-strong: light-dark(#97907f, #6b6157);
+
+  /* Lifted in dark mode so --brand-ink still reads on it. */
+  --brand: light-dark(#a34a2a, #d9764f);
+  --brand-ink: light-dark(#fdfbf7, #16130f);
+
+  --danger: light-dark(#8a1c1c, #f08b7d);
+  --success: light-dark(#3f6b45, #74c48a);
+
+  --radius-card-size: 1.25rem;
+  --radius-control-size: 0.75rem;
+  --tile-aspect: 4 / 5;
+
+  /* A serif sits lower and wider than a grotesk. Ease off the tracking. */
+  --display-weight: 500;
+  --display-tracking: -0.008em;
+
+  --elevation-card:
+    0 0 0 1px light-dark(transparent, rgb(255 246 232 / 0.05)),
+    0 1px 2px light-dark(rgb(35 32 28 / 0.05), transparent),
+    0 16px 32px -18px light-dark(rgb(35 32 28 / 0.18), rgb(0 0 0 / 0.75));
+  --elevation-raised:
+    0 0 0 1px light-dark(transparent, rgb(255 246 232 / 0.07)),
+    0 2px 8px light-dark(rgb(35 32 28 / 0.07), transparent),
+    0 32px 64px -28px light-dark(rgb(35 32 28 / 0.28), rgb(0 0 0 / 0.9));
+
+  --section-gap: 5rem;
+}

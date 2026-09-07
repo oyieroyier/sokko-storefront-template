@@ -1,11 +1,15 @@
 'use client';
 
-import { formatPrice, fromPrice, useProductPurchase, type Product } from '@sokkoke/storefront-react';
+import { useProductPurchase, type Product } from '@sokkoke/storefront-react';
+import { CheckoutCurtain } from '@/components/store/CheckoutCurtain';
 import { CheckoutNotice } from '@/components/store/CheckoutNotice';
 import { QuantityStepper } from '@/components/store/QuantityStepper';
 import { VariantPicker } from '@/components/store/VariantPicker';
+import { Badge } from '@/components/ui/Badge';
+import { Price } from '@/components/ui/Price';
 import { cart } from '@/lib/cart';
 import { storefront } from '@/lib/sokko';
+import { useCheckoutHandoff } from '@/lib/useCheckoutHandoff';
 import { primaryButton, secondaryButton } from '@/lib/styles';
 
 /**
@@ -33,22 +37,19 @@ export function BuyPanel({ product }: { product: Product }) {
     added,
     addToBasket,
     buyNow,
-    checkoutStatus,
     checkoutError
   } = useProductPurchase(storefront, cart, product);
 
-  const listed = fromPrice(product);
-  const hasChoice = (product.variants?.length ?? 0) > 1;
-  const price = selectedVariant
-    ? formatPrice(selectedVariant.priceAmount, selectedVariant.currency)
-    : listed && `${hasChoice ? 'From ' : ''}${formatPrice(listed.amount, listed.currency)}`;
+  const { isLeaving, begin, onCovered } = useCheckoutHandoff();
 
   const unavailable = isComplete && !selectedVariant;
-  const working = checkoutStatus === 'working';
 
   return (
-    <div className="space-y-6">
-      {price && <p className="text-2xl font-semibold tracking-tight">{price}</p>}
+    <div className="space-y-block">
+      <div className="flex flex-wrap items-center gap-3">
+        <Price className="type-display text-2xl" product={product} variant={selectedVariant} />
+        {product.installmentEligible && <Badge>Instalments</Badge>}
+      </div>
 
       <VariantPicker groups={groups} selection={selection} onSelect={select} />
 
@@ -62,15 +63,18 @@ export function BuyPanel({ product }: { product: Product }) {
         <button
           type="button"
           className={primaryButton}
-          disabled={!selectedVariant || working}
-          onClick={() => buyNow()}
+          disabled={!selectedVariant || isLeaving}
+          onClick={() => begin(() => buyNow({ navigate: false }))}
         >
-          {working ? 'Taking you to Sokko' : selectedVariant ? 'Buy now' : 'Select an option'}
+          {selectedVariant ? 'Buy now' : 'Select an option'}
         </button>
+        {/* Also disabled while leaving. A checkout in flight and a basket
+            still taking additions is a buyer editing an order that has
+            already been priced. */}
         <button
           type="button"
           className={secondaryButton}
-          disabled={!selectedVariant}
+          disabled={!selectedVariant || isLeaving}
           onClick={addToBasket}
         >
           {added ? 'Added' : 'Add to basket'}
@@ -85,6 +89,8 @@ export function BuyPanel({ product }: { product: Product }) {
       {checkoutError && <p className="text-sm text-danger">{checkoutError}</p>}
 
       <CheckoutNotice product={product} />
+
+      <CheckoutCurtain isLeaving={isLeaving} onCovered={onCovered} />
     </div>
   );
 }

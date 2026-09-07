@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import { formatPrice, fromPrice, type Product } from '@sokkoke/storefront-react';
+import type { Product } from '@sokkoke/storefront-react';
+import { Badge } from '@/components/ui/Badge';
+import { Price } from '@/components/ui/Price';
+import { ProductImage } from '@/components/ui/ProductImage';
 import { storefront } from '@/lib/sokko';
 
 /**
@@ -9,44 +12,50 @@ import { storefront } from '@/lib/sokko';
  * in the browser and a catalogue grid is the part of the site that most needs
  * to be in the HTML. `productImages`, `primaryImageSrcSet` and `fromPrice`
  * are plain functions, so the server can do the same work.
+ *
+ * Title above price, both ranged left, rather than the two on one line. A
+ * catalogue usually shares a prefix ("Big Rizz Limited Edition ..."), so the
+ * word that tells the products apart is the last one, and a single truncated
+ * line spends the whole label on the part they have in common.
  */
 export function ProductTile({ product }: { product: Product }) {
   const [image] = storefront.productImages(product);
   const srcSet = storefront.primaryImageSrcSet(product);
-  const price = fromPrice(product);
-  const hasChoice = (product.variants?.length ?? 0) > 1;
 
   return (
-    <Link href={`/store/${product.slug}`} className="group block">
-      <div className="aspect-square overflow-hidden rounded-card border border-line bg-surface">
-        {image ? (
-          // A plain img, not next/image: the srcset already comes from Sokko's
-          // stored renditions, and this keeps the template deployable anywhere
-          // without whitelisting an image host.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            alt={product.title}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            loading="lazy"
-            sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 92vw"
-            src={image}
-            srcSet={srcSet}
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-muted">
-            No image yet
-          </div>
+    <Link
+      href={`/store/${product.slug}`}
+      className="group block rounded-card focus-visible:outline-offset-4"
+    >
+      <div className="relative">
+        <ProductImage
+          alt={product.title}
+          className="transition-brand group-hover:border-muted"
+          frame
+          // The framed photo is inset from the tile, so this is the tile
+          // width less the plate padding. Overstating it costs a rendition.
+          imageClassName="transition-brand group-hover:scale-102"
+          sizes="(min-width: 1024px) 20rem, (min-width: 640px) 42vw, 86vw"
+          src={image}
+          srcSet={srcSet}
+        />
+
+        {/*
+          Instalment eligibility is a reason to buy in this market, so it goes
+          where the buyer is deciding rather than in the checkout fine print.
+        */}
+        {product.installmentEligible && (
+          <Badge className="absolute top-5 left-5 shadow-card" tone="brand">
+            Instalments
+          </Badge>
         )}
       </div>
 
-      <div className="mt-3 flex items-baseline justify-between gap-4">
-        <h3 className="text-sm font-medium">{product.title}</h3>
-        {price && (
-          <p className="shrink-0 text-sm text-muted">
-            {hasChoice ? 'From ' : ''}
-            {formatPrice(price.amount, price.currency)}
-          </p>
-        )}
+      <div className="mt-3 space-y-1">
+        {/* Two lines, and the height is reserved either way so prices stay on
+            one line across the row whether a title wraps or not. */}
+        <h3 className="line-clamp-2 min-h-10 text-sm leading-snug font-medium">{product.title}</h3>
+        <Price className="block text-sm text-ink" product={product} />
       </div>
     </Link>
   );

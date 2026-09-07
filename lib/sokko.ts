@@ -11,13 +11,35 @@ import { createStorefront, type Product } from '@sokkoke/storefront-react';
  *
  * No API key. These are Sokko's public, unauthenticated storefront endpoints.
  */
+/**
+ * How long a catalogue response is reused, in seconds. Lower it during a
+ * drop, raise it for a catalogue that rarely changes. The pages export the
+ * same number for full-route caching.
+ */
+export const CATALOGUE_TTL = 300;
+
 export const storefront = createStorefront({
   storefrontId: process.env.NEXT_PUBLIC_SOKKO_STOREFRONT_ID ?? '',
   // `|| undefined` so a blank env var falls back to the production default
   // instead of switching the client off.
   apiUrl: process.env.NEXT_PUBLIC_SOKKO_API_URL || undefined,
   checkoutUrl: process.env.NEXT_PUBLIC_SOKKO_CHECKOUT_URL || undefined,
-  tenantId: process.env.NEXT_PUBLIC_SOKKO_TENANT_ID || undefined
+  tenantId: process.env.NEXT_PUBLIC_SOKKO_TENANT_ID || undefined,
+  /*
+   * The SDK takes an injectable fetch, which is the hook for Next's data
+   * cache. Without it every Sokko call is `no-store`, and the moment a page
+   * reads a search param and turns dynamic, that page hits Sokko once per
+   * visitor. Caching here rather than on the route means /store keeps its
+   * sort links and still serves most requests without a round trip.
+   *
+   * Reads only. `startCheckout` is a POST that carries an idempotency key,
+   * and a cached checkout is the one thing worse than an uncached catalogue.
+   * In the browser `next` is an unrecognised init field and is ignored.
+   */
+  fetch: (input, init) =>
+    (init?.method ?? 'GET') === 'GET'
+      ? fetch(input, { ...init, next: { revalidate: CATALOGUE_TTL } })
+      : fetch(input, init)
 });
 
 /** False until NEXT_PUBLIC_SOKKO_STOREFRONT_ID is set. */

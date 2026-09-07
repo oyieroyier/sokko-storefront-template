@@ -1,46 +1,63 @@
 @import 'tailwindcss';
 
 /*
- * The whole theme. Rebrand the template by editing the values in `:root`
- * (and the dark block below it) and nothing else. Every component reads
- * these through Tailwind utilities: bg-surface, text-muted, border-line,
- * bg-brand, rounded-card, and so on.
+ * The theme. Swap this one line for a preset to rebrand the whole site:
  *
- * The defaults are deliberately plain. They are meant to be replaced, not
- * to look like somebody's brand already.
+ *   @import './themes/warm.css';
+ *   @import './themes/bold.css';
+ *   @import './themes/mono.css';
+ *
+ * See /style for every token, control state and empty state on one page.
  */
+@import './theme.css';
+
+/*
+ * Nothing below is a design decision. This file only wires the tokens in
+ * app/theme.css to the Tailwind utilities that components use, so a rebrand
+ * stays a one-file change and no component ever names a colour.
+ */
+
 :root {
-  --page: #ffffff;
-  --ink: #101012;
-  --surface: #f7f7f8;
-  --muted: #6b6b73;
-  --line: #e5e5e8;
+  /*
+   * Which half of every `light-dark()` in the theme applies, and the only
+   * switch there is. `light dark` means follow the operating system.
+   *
+   * It also tells the browser to draw its own furniture to match: the cart
+   * drawer's scrollbar, text field internals, and the native focus rings on
+   * form controls. Without it those stay light while the page goes dark.
+   *
+   * Because `color-scheme` inherits, setting it on any element re-resolves
+   * the tokens for that subtree. That is how /style shows both modes at once
+   * without a second set of values that could drift from this one.
+   */
+  color-scheme: light dark;
 
-  /* The one colour most stores need to change. */
-  --brand: #101012;
-  --brand-ink: #ffffff;
-
-  --danger: #b42318;
-  --success: #067647;
-
-  --radius-card-size: 0.75rem;
-  --radius-control-size: 0.5rem;
+  /* next/font writes --font-body and --font-title onto <html>. */
+  --body-stack: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --display-stack: var(--font-title), var(--body-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --page: #0b0b0c;
-    --ink: #f4f4f5;
-    --surface: #151517;
-    --muted: #a1a1aa;
-    --line: #27272a;
+/* Force a mode on a subtree. Used by the style kit to show both at once. */
+@utility scheme-light {
+  color-scheme: light;
+}
 
-    --brand: #f4f4f5;
-    --brand-ink: #0b0b0c;
+@utility scheme-dark {
+  color-scheme: dark;
+}
 
-    --danger: #f97066;
-    --success: #47cd89;
-  }
+/*
+ * The same two, for a site-wide switcher that puts the class on <html>.
+ * They need their own rules: a bare class ties with `:root` on specificity
+ * and loses on source order, so the utility alone silently does nothing
+ * there. This is the hook to hang a light/dark toggle on.
+ */
+html.scheme-light {
+  color-scheme: light;
+}
+
+html.scheme-dark {
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -49,15 +66,32 @@
   --color-surface: var(--surface);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-brand: var(--brand);
   --color-brand-ink: var(--brand-ink);
   --color-danger: var(--danger);
   --color-success: var(--success);
 
+  --font-sans: var(--body-stack);
+  --font-display: var(--display-stack);
+
   --radius-card: var(--radius-card-size);
   --radius-control: var(--radius-control-size);
+  --radius-pill: var(--radius-pill-size);
 
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: var(--elevation-card);
+  --shadow-raised: var(--elevation-raised);
+
+  --aspect-tile: var(--tile-aspect);
+
+  --ease-brand: var(--motion-ease);
+  --ease-entrance: var(--motion-ease-entrance);
+
+  /* The whole spacing rhythm. Pages use gap-section / space-y-block and
+     never invent a one-off value. */
+  --spacing-section: var(--section-gap);
+  --spacing-block: var(--block-gap);
+  --spacing-tight: var(--tight-gap);
 }
 
 @layer base {
@@ -71,16 +105,149 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /*
+   * Headings are set from the display tokens here rather than by a stack of
+   * font-* and tracking-* classes on every h1. That is what lets a preset
+   * change the voice of the site without touching a component. Size still
+   * comes from a utility; weight, tracking and face do not.
+   */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--display-stack);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+  }
+
   /* Keyboard focus stays visible everywhere. Do not remove this. */
   :focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
+  }
+
+  /* Buyers who ask for less motion get none of it. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @utility container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 72rem;
-  padding-inline: 1.25rem;
+  max-width: var(--page-max);
+  padding-inline: var(--page-gutter);
+}
+
+/* Display setting on something that is not a heading, such as a price. */
+@utility type-display {
+  font-family: var(--display-stack);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+}
+
+/* State changes: hovers, presses, focus. One curve, one duration. */
+@utility transition-brand {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--motion-ease);
+}
+
+/* Things that arrive: an image fading in, a panel sliding on. */
+@utility transition-entrance {
+  transition-property: opacity, transform;
+  transition-duration: var(--motion-slow);
+  transition-timing-function: var(--motion-ease-entrance);
+}
+
+@utility skeleton {
+  background-color: var(--surface);
+  animation: skeleton-pulse 1.6s var(--motion-ease) infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* The basket drawer and its scrim. Both respect prefers-reduced-motion via
+   the global override in the base layer. */
+@utility animate-drawer {
+  animation: drawer-in var(--motion-slow) var(--motion-ease-entrance);
+}
+
+@utility animate-scrim {
+  animation: scrim-in var(--motion-base) var(--motion-ease);
+}
+
+/* The checkout curtain. A CSS animation rather than a transition because it
+   has to run on mount, and because animationend is what tells the handoff the
+   page is covered. Under prefers-reduced-motion the global override collapses
+   the duration to nothing, so the event still fires and the race still
+   settles: the buyer just does not see the wipe. */
+@utility animate-curtain {
+  animation: curtain-in var(--motion-slow) var(--motion-ease-entrance) both;
+}
+
+@utility animate-curtain-content {
+  animation: curtain-in-content var(--motion-slow) var(--motion-ease-entrance) both;
+  /* Held back so the type arrives on a still surface instead of riding up
+     with it. */
+  animation-delay: calc(var(--motion-slow) * 0.55);
+}
+
+/* Indeterminate on purpose. The wait is one network call of unknown length,
+   and a bar that stalls at 90% is worse than an honest shuttle. */
+@utility animate-sweep {
+  animation: sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes curtain-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes curtain-in-content {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(1.5rem);
+    opacity: 0;
+  }
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
 }

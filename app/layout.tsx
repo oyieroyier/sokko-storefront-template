@@ -1,13 +1,9 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
+import { fontVariables } from '@/app/fonts';
 import { site } from '@/lib/site';
 import './globals.css';
-
-// One font, exposed as the token app/globals.css reads. Swap the import and
-// the variable name here to change the typeface for the whole site.
-const body = Inter({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -23,9 +19,17 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image' }
 };
 
+/** Paints the phone's browser chrome to match the page instead of grey. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: site.chrome.page },
+    { media: '(prefers-color-scheme: dark)', color: site.chrome.pageDark }
+  ]
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={body.variable}>
+    <html lang="en" className={fontVariables}>
       {/*
         suppressHydrationWarning covers this element's own attributes, one level
         deep, not its children. Password managers, theme switchers and colour
@@ -35,8 +39,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         still report normally.
       */}
       <body className="font-sans antialiased" suppressHydrationWarning>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:border focus:border-line focus:bg-page focus:px-4 focus:py-2 focus:text-sm"
+        >
+          Skip to content
+        </a>
         <Header />
-        <main className="container-page py-12">{children}</main>
+        <main className="container-page py-block" id="main">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

@@ -21,7 +21,7 @@ export function VariantPicker({
   if (!groups.length) return null;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-block">
       {groups.map((group) => (
         <fieldset key={group.name}>
           <legend className="text-xs font-medium tracking-wide text-muted uppercase">
@@ -37,7 +37,7 @@ export function VariantPicker({
                   aria-pressed={isSelected}
                   onClick={() => onSelect(group.name, value)}
                   className={cn(
-                    'rounded-control border px-3.5 py-2 text-sm transition-colors',
+                    'rounded-control border px-3.5 py-2 text-sm transition-brand',
                     isSelected
                       ? 'border-brand bg-brand text-brand-ink'
                       : 'border-line text-ink hover:bg-surface'

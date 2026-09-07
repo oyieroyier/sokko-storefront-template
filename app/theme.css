@@ -1,0 +1,93 @@
+/*
+ * The default theme: "Studio". Restrained, warm-neutral, monochrome brand.
+ *
+ * This file is the whole visual identity. Nothing in app/ or components/
+ * hardcodes a colour, a radius, a shadow, a duration or an image ratio, so
+ * every value below reaches the entire site.
+ *
+ * Every colour is `light-dark(light-value, dark-value)`. One line per token,
+ * both modes, which is the point: a theme with a separate dark block lets you
+ * change --brand and silently forget its dark counterpart. Here you cannot.
+ * Which half applies is decided by `color-scheme`, set on :root in
+ * app/globals.css to follow the operating system.
+ *
+ * To try another identity, change one line in app/globals.css:
+ *
+ *   @import './themes/warm.css';   warm paper, terracotta, soft and round
+ *   @import './themes/bold.css';   high contrast, electric brand, pill controls
+ *   @import './themes/mono.css';   editorial, square corners, no elevation
+ *
+ * The typeface is the one brand decision that cannot live in CSS. It is in
+ * app/fonts.ts, one import per role.
+ *
+ * Every pair below clears WCAG AA where it carries text. Run
+ * `npm run check:contrast` after changing any of them.
+ */
+:root {
+  /* Surfaces and ink. */
+  --page: light-dark(#fcfcfb, #0c0c0e);
+  --ink: light-dark(#16161a, #f2f2f0);
+  --surface: light-dark(#f2f2ef, #161619);
+  --muted: light-dark(#63636b, #9c9ca6);
+  --line: light-dark(#e3e3df, #26262b);
+
+  /*
+   * The boundary a card is identified by, held to 3:1 against --page by
+   * check:contrast. --line is deliberately weaker: it draws decorative
+   * hairlines. A product photo arrives with the seller's own background
+   * baked into it, so a black photo on a dark page has no perceivable edge
+   * unless something guarantees one. This is that guarantee.
+   */
+  --line-strong: light-dark(#8f8f96, #63636b);
+
+  /* The one colour most stores change. --brand-ink must read on top of it. */
+  --brand: light-dark(#16161a, #f2f2f0);
+  --brand-ink: light-dark(#fcfcfb, #0c0c0e);
+
+  --danger: light-dark(#b42318, #f97066);
+  --success: light-dark(#067647, #47cd89);
+
+  /* What a keyboard outline is drawn in. */
+  --focus-ring: var(--brand);
+
+  /* Geometry. Radius and image ratio carry more brand than colour does. */
+  --radius-card-size: 0.875rem;
+  --radius-control-size: 0.5rem;
+  --radius-pill-size: 9999px;
+  --tile-aspect: 1 / 1;
+
+  /*
+   * Elevation. The geometry is the same in both modes; only the colours
+   * change, because a drop shadow does not read on a dark page. Dark leads
+   * with a hairline of light instead, which is why the first layer is
+   * transparent in light mode rather than absent.
+   */
+  --elevation-card:
+    0 0 0 1px light-dark(transparent, rgb(255 255 255 / 0.04)),
+    0 1px 2px light-dark(rgb(16 16 18 / 0.04), transparent),
+    0 12px 28px -16px light-dark(rgb(16 16 18 / 0.14), rgb(0 0 0 / 0.7));
+  --elevation-raised:
+    0 0 0 1px light-dark(transparent, rgb(255 255 255 / 0.06)),
+    0 2px 6px light-dark(rgb(16 16 18 / 0.06), transparent),
+    0 28px 56px -24px light-dark(rgb(16 16 18 / 0.22), rgb(0 0 0 / 0.85));
+
+  /* Type. The face comes from app/fonts.ts; the setting comes from here. */
+  --display-weight: 600;
+  --display-tracking: -0.022em;
+
+  /* Motion. One easing curve for state, one for things that arrive. */
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 420ms;
+
+  /* Rhythm. Three gaps, used everywhere, so no page invents its own scale. */
+  --section-gap: 4.5rem;
+  --block-gap: 2rem;
+  --tight-gap: 1rem;
+
+  /* The page measure. */
+  --page-max: 72rem;
+  --page-gutter: 1.25rem;
+}

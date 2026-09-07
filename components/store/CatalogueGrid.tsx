@@ -1,15 +1,13 @@
 import type { Product } from '@sokkoke/storefront-react';
 import { ProductTile } from '@/components/store/ProductTile';
+import { Notice } from '@/components/ui/Notice';
 
 export function CatalogueGrid({ products }: { products: Product[] }) {
   if (!products.length) {
     return (
-      <div className="rounded-card border border-line bg-surface p-8">
-        <h2 className="text-lg font-semibold">Nothing on sale yet</h2>
-        <p className="mt-2 text-sm text-muted">
-          Publish a product in your Sokko dashboard and it shows up here.
-        </p>
-      </div>
+      <Notice title="Nothing on sale yet">
+        Publish a product in your Sokko dashboard and it shows up here.
+      </Notice>
     );
   }
 
