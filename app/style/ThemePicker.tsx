@@ -1,7 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { presetClasses, presets } from '@/app/style/presets';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
+import {
+  applyThemeClass,
+  presets,
+  readServerThemeClass,
+  readThemeClass,
+  subscribeToThemeClass
+} from '@/lib/themes';
 import { primaryButton, secondaryButton } from '@/lib/styles';
 
 /**
@@ -17,15 +23,16 @@ import { primaryButton, secondaryButton } from '@/lib/styles';
  * wired to storage or the URL for the same reason.
  */
 export function ThemePicker() {
-  const [active, setActive] = useState('');
+  const active = useSyncExternalStore(subscribeToThemeClass, readThemeClass, readServerThemeClass);
+  const arrivedWearing = useRef('');
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove(...presetClasses);
-    if (active) root.classList.add(active);
-    // Leaving /style must not leave the store wearing a preview theme.
-    return () => root.classList.remove(...presetClasses);
-  }, [active]);
+    // Whatever the page had on arrival, including a theme the demo bar
+    // persisted. Leaving /style restores it rather than clearing it, so
+    // previewing here cannot silently restyle the rest of the store.
+    arrivedWearing.current = readThemeClass();
+    return () => applyThemeClass(arrivedWearing.current);
+  }, []);
 
   return (
     <div className="sticky top-0 z-30 border-b border-line bg-page/90 py-3 backdrop-blur">
@@ -38,7 +45,7 @@ export function ThemePicker() {
               aria-pressed={isActive}
               className={isActive ? primaryButton : secondaryButton}
               key={preset.name}
-              onClick={() => setActive(preset.className)}
+              onClick={() => applyThemeClass(preset.className)}
               type="button"
             >
               {preset.name}

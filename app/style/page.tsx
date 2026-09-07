@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { ControlsPreview } from '@/app/style/ControlsPreview';
 import { ThemePicker } from '@/app/style/ThemePicker';
-import { presets } from '@/app/style/presets';
+import { presets } from '@/lib/themes';
 import { CatalogueGrid } from '@/components/store/CatalogueGrid';
 import { CatalogueGridSkeleton } from '@/components/store/ProductTileSkeleton';
 import { SetupNotice } from '@/components/store/SetupNotice';

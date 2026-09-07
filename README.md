@@ -80,6 +80,14 @@ Skipping the font line is survivable, not correct: you get the preset's colour
 under the default grotesk. Once you have chosen, delete the presets you are not
 wearing from the imports at the top of `app/globals.css`.
 
+To show a client the four looks on the real store rather than on `/style`, set
+`NEXT_PUBLIC_THEME_DEMO=1` and a switcher appears in the corner of every page.
+It remembers your choice across a reload so you can walk the whole store in one
+theme. Leave the variable unset in production — a shop does not let buyers
+restyle it. Unset, nothing renders and no script touches storage, but the
+component is still compiled in, so when you have decided put the class in
+`app/layout.tsx` and delete `components/site/ThemeDemoBar.tsx` outright.
+
 After that, edit copy in `app/page.tsx` and `app/store/page.tsx`, and the store
 is the client's. The favicon and the share card are generated from
 `lib/site.ts`, so they are already right; drop a real `icon.png` in `app/` when

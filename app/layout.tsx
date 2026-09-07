@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
+import { ThemeDemoBar } from '@/components/site/ThemeDemoBar';
 import { fontVariables } from '@/app/fonts';
 import { site } from '@/lib/site';
+import { themeBootScript } from '@/lib/themes';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -39,9 +41,23 @@ export const viewport: Viewport = {
  */
 const theme = '';
 
+/*
+ * The demo switcher: a bar on the real store that swaps themes, for showing a
+ * client four looks without four deploys. Off unless NEXT_PUBLIC_THEME_DEMO=1,
+ * because a shop that lets buyers restyle it is not a shop. Nothing below
+ * renders in a normal build.
+ */
+const themeDemo = process.env.NEXT_PUBLIC_THEME_DEMO === '1';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${theme} ${fontVariables}`}>
+    /*
+     * suppressHydrationWarning here covers one case only: the demo bar's boot
+     * script adds a theme class to <html> before React hydrates, so the server
+     * and client class strings differ by design. Without the demo enabled
+     * nothing writes to this element and the attribute changes nothing.
+     */
+    <html lang="en" className={`${theme} ${fontVariables}`} suppressHydrationWarning>
       {/*
         suppressHydrationWarning covers this element's own attributes, one level
         deep, not its children. Password managers, theme switchers and colour
@@ -51,6 +67,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         still report normally.
       */}
       <body className="font-sans antialiased" suppressHydrationWarning>
+        {themeDemo && (
+          // Before the first paint, so a reload does not flash the default theme.
+          <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        )}
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:border focus:border-line focus:bg-page focus:px-4 focus:py-2 focus:text-sm"
@@ -62,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        {themeDemo && <ThemeDemoBar />}
       </body>
     </html>
   );
