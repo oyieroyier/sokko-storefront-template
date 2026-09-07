@@ -6,13 +6,20 @@
  * what you notice. Using one face for a 48px heading and a 12px caption is
  * the loudest "unfinished template" signal there is.
  *
- * Swap either import and the whole site follows. The presets in app/themes
- * were drawn with these pairings:
+ * Swap either import and the whole site follows.
  *
- *   theme.css (default)  Inter + Bricolage Grotesque
- *   themes/warm.css      Inter + Fraunces
- *   themes/bold.css      Inter + Space Grotesk
- *   themes/mono.css      Inter + Inter
+ * This is also the second half of wearing a preset. A theme class sets colour
+ * and geometry; it cannot reach the typeface, so a preset is two lines, not
+ * one — the class in app/layout.tsx, and the display import below:
+ *
+ *   default (no class)  Inter + Bricolage_Grotesque
+ *   theme-warm          Inter + Fraunces
+ *   theme-bold          Inter + Space_Grotesk
+ *   theme-mono          Inter + Inter          (one line: no face to change)
+ *
+ * All four are next/font/google names — change the import and the identifier
+ * and nothing else moves. Skipping the font line is survivable, not correct:
+ * you get the preset's colour under the default grotesk.
  */
 import { Bricolage_Grotesque, Inter } from 'next/font/google';
 

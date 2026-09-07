@@ -1,15 +1,24 @@
 @import 'tailwindcss';
 
 /*
- * The theme. Swap this one line for a preset to rebrand the whole site:
+ * The theme. app/theme.css is the identity every store starts with: edit it
+ * and you are done, no class, no preset, nothing below this comment.
  *
- *   @import './themes/warm.css';
- *   @import './themes/bold.css';
- *   @import './themes/mono.css';
+ * The three presets are the alternative — proof that the same components make
+ * a different-looking business, and a starting point closer to yours than the
+ * default. Each one is tokens on a class. Wear one by putting its class on
+ * <html> in app/layout.tsx, and read its file header first: two of the three
+ * also want a typeface, which lives in app/fonts.ts because CSS cannot set it.
  *
- * See /style for every token, control state and empty state on one page.
+ * Once you have chosen, delete the imports you are not wearing. They are about
+ * 300 bytes each and they are on every page until you do.
+ *
+ * See /style for all four side by side, plus every control and empty state.
  */
 @import './theme.css';
+@import './themes/warm.css';
+@import './themes/bold.css';
+@import './themes/mono.css';
 
 /*
  * Nothing below is a design decision. This file only wires the tokens in

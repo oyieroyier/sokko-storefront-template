@@ -27,9 +27,21 @@ export const viewport: Viewport = {
   ]
 };
 
+/*
+ * The theme class. Empty means app/theme.css as written, which is what most
+ * stores want. Set it to a preset from app/themes to wear that identity
+ * instead — and read the preset's file header, because two of the three also
+ * expect a display face swapped in app/fonts.ts.
+ *
+ *   'theme-warm' | 'theme-bold' | 'theme-mono'
+ *
+ * It sits on <html> so it reaches the portalled cart drawer too.
+ */
+const theme = '';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="en" className={`${theme} ${fontVariables}`}>
       {/*
         suppressHydrationWarning covers this element's own attributes, one level
         deep, not its children. Password managers, theme switchers and colour

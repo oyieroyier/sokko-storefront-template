@@ -6,6 +6,13 @@ App Router, TypeScript, Tailwind, and [`@sokkoke/storefront-react`](https://www.
 Clone it, paste one id, and you have a store. Change the theme file and the site
 config, and it is the client's store.
 
+![The same storefront under all four themes](docs/screenshots/themes.png)
+
+One component tree, four identities: **Studio**, **Warm**, **Bold**, **Mono**.
+Nothing above is a fork — colour, radius, tile ratio, elevation and rhythm are
+all tokens, and the only other difference is the typeface. Screenshots run
+against a live Sokko catalogue.
+
 ## What Sokko owns, what you own
 
 Sokko owns the money. Checkout, M-Pesa, instalments, delivery and repricing all
@@ -30,30 +37,46 @@ Developers**. That page shows your real value. Until you set it, the store
 pages render a short setup notice instead of failing.
 
 Then open **`/style`**. It is the whole kit on one page: every colour, every
-type size, every control, and every loading, empty and error state. It is how
-you check a rebrand in five seconds instead of clicking around the store
-hunting for the error screen you cannot reproduce. Delete the route before you
-go live if you like.
+type size, every control, every loading, empty and error state, and all four
+themes side by side. It is how you check a rebrand in five seconds instead of
+clicking around the store hunting for the error screen you cannot reproduce.
+Delete the route before you go live if you like.
 
 ## Make it yours
 
-Three files carry the branding.
+A few files carry the branding.
 
 | File | What to change |
 | --- | --- |
 | `app/theme.css` | The whole visual identity. Colour, radius, image ratio, elevation, motion, spacing rhythm and the display setting. Every colour is `light-dark(light, dark)`, one line per token, so you cannot change a colour and forget its dark half. |
 | `app/fonts.ts` | The typeface. Two roles: `--font-body` is what you read, `--font-title` is what you notice. |
+| `app/layout.tsx` | One line: the theme class, if you are wearing a preset rather than editing `app/theme.css` directly. |
 | `lib/site.ts` | Name, tagline, description, nav, social links, public URL, and the three chrome colours that a CSS variable cannot reach. |
 
 Try a whole identity before you draw your own. Each preset is the default plus
-the handful of tokens it overrides, so the file is also the explanation:
+the handful of tokens it overrides, so the file is also the explanation.
 
-```css
-/* app/globals.css */
-@import './themes/warm.css';   /* cream paper, clay brand, tall tiles, round */
-@import './themes/bold.css';   /* electric brand, pill controls, heavy display */
-@import './themes/mono.css';   /* editorial, square corners, no elevation */
+| Class | Identity | Display face |
+| --- | --- | --- |
+| *(none)* | [Studio](docs/screenshots/studio.png) — restrained, warm-neutral, monochrome brand | Bricolage Grotesque |
+| `theme-warm` | [Warm](docs/screenshots/warm.png) — cream paper, clay brand, tall tiles, round | Fraunces |
+| `theme-bold` | [Bold](docs/screenshots/bold.png) — electric brand, pill controls, heavy display | Space Grotesk |
+| `theme-mono` | [Mono](docs/screenshots/mono.png) — editorial, square corners, no elevation | Inter — nothing to change |
+
+Wearing one is two lines, not one, because a theme is colour *and* typeface and
+CSS cannot reach the second:
+
+```tsx
+// app/layout.tsx
+const theme = 'theme-warm';
+
+// app/fonts.ts
+export const displayFont = Fraunces({ subsets: ['latin'], variable: '--font-title' });
 ```
+
+Skipping the font line is survivable, not correct: you get the preset's colour
+under the default grotesk. Once you have chosen, delete the presets you are not
+wearing from the imports at the top of `app/globals.css`.
 
 After that, edit copy in `app/page.tsx` and `app/store/page.tsx`, and the store
 is the client's. The favicon and the share card are generated from
@@ -187,3 +210,7 @@ is covered automatically. It is the check that catches the colour nobody
 looks at: an error line on a card, or text inside a tinted badge.
 
 `npm run build` succeeds with no `.env` at all, so a fresh clone always builds.
+
+## License
+
+MIT. See [LICENSE](LICENSE). Use it for client work, change anything, ship it.

@@ -1,13 +1,17 @@
 /*
  * Preset: "Bold". White page, electric brand, pill controls, heavy display.
- * Designed to pair with the Space Grotesk display face (see app/fonts.ts).
  *
- * Use it by changing one line in app/globals.css:
- *   @import './themes/bold.css';
+ * Wearing it takes two lines, because a theme is colour *and* typeface and
+ * CSS cannot reach the second one:
+ *
+ *   app/layout.tsx   <html className={`theme-bold ${fontVariables}`}>
+ *   app/fonts.ts     const displayFont = Space_Grotesk({ ... })
+ *
+ * See app/themes/warm.css for why these tokens sit on a class.
+ *
+ * Overrides only. Anything absent is inherited from app/theme.css.
  */
-@import '../theme.css';
-
-:root {
+.theme-bold {
   --page: light-dark(#ffffff, #08080a);
   --ink: light-dark(#08080a, #fafafa);
   --surface: light-dark(#f4f4f6, #131318);

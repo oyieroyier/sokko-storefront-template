@@ -105,7 +105,11 @@ export function ProductImage({
       )}
     >
       {frame ? (
-        <div className="border-line-strong relative h-full w-full overflow-hidden rounded-control border">
+        /* rounded-card, not rounded-control: this is a frame around a photo, not
+           a control. A theme that makes buttons pills (app/themes/bold.css sets
+           --radius-control-size to 9999px) would otherwise crop every product
+           image to a circle. */
+        <div className="border-line-strong relative h-full w-full overflow-hidden rounded-card border">
           {content}
         </div>
       ) : (

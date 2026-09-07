@@ -48,14 +48,25 @@ const swatches = [
   { token: '--success', className: 'bg-success' }
 ];
 
+/*
+ * Every identity the template ships with. `className: ''` is app/theme.css as
+ * written; the rest are the classes in app/themes.
+ */
+const presets = [
+  { name: 'Studio', className: '', note: 'default — Bricolage Grotesque' },
+  { name: 'Warm', className: 'theme-warm', note: 'theme-warm — Fraunces' },
+  { name: 'Bold', className: 'theme-bold', note: 'theme-bold — Space Grotesk' },
+  { name: 'Mono', className: 'theme-mono', note: 'theme-mono — Inter' }
+];
+
 export default function StyleKitPage() {
   return (
     <div className="space-y-section">
       <header className="max-w-2xl space-y-tight py-block">
         <h1 className="text-4xl text-balance">Style kit</h1>
         <p className="text-lg text-muted">
-          Everything the theme controls, on one page. Delete this route before you go live if you
-          like.
+          Everything the theme controls, on one page, including all four presets side by side.
+          Delete this route before you go live if you like.
         </p>
       </header>
 
@@ -63,9 +74,7 @@ export default function StyleKitPage() {
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {swatches.map((swatch) => (
             <li key={swatch.token} className="space-y-2">
-              <div
-                className={`${swatch.className} h-16 w-full rounded-card border border-line`}
-              />
+              <div className={`${swatch.className} h-16 w-full rounded-card border border-line`} />
               <p className="font-mono text-xs text-muted">{swatch.token}</p>
             </li>
           ))}
@@ -113,6 +122,58 @@ export default function StyleKitPage() {
                 <p className="text-sm">Card on surface, with elevation.</p>
                 <p className="mt-1 text-sm text-muted">Muted body copy.</p>
                 <p className="mt-1 text-sm text-danger">An error line.</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        title="Presets"
+        note="The same components under all four themes. Colour, radius, tile ratio, elevation and rhythm are tokens, so nothing here is a second copy of a component — it is the one component reading different values. The typeface is the exception: it cannot come from CSS, so every panel below is in the face this build imported. Swapping it is the second line in each preset's header."
+      >
+        <div className="grid gap-6 sm:grid-cols-2">
+          {presets.map((preset) => (
+            <div
+              key={preset.name}
+              className={`${preset.className} space-y-tight rounded-card border border-line-strong bg-page p-6 text-ink`}
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="type-display text-lg">{preset.name}</h3>
+                <p className="font-mono text-xs text-muted">{preset.note}</p>
+              </div>
+
+              <ul className="flex gap-1.5">
+                {swatches.map((swatch) => (
+                  <li
+                    key={swatch.token}
+                    className={`${swatch.className} h-8 flex-1 rounded-control border border-line`}
+                    title={swatch.token}
+                  />
+                ))}
+              </ul>
+
+              <div className="flex items-start gap-4">
+                <div className="w-24 shrink-0">
+                  <ProductImage alt="" src={undefined} />
+                </div>
+                <div className="min-w-0 space-y-2">
+                  <p className="type-display text-base">Field jacket</p>
+                  <p className="type-display text-sm">KES 3,500</p>
+                  <Badge tone="success">In stock</Badge>
+                  <p className="text-sm text-muted">
+                    Card radius, tile ratio and elevation all move with the theme.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button" className={primaryButton}>
+                  Buy now
+                </button>
+                <button type="button" className={secondaryButton}>
+                  Basket
+                </button>
               </div>
             </div>
           ))}
@@ -207,7 +268,10 @@ export default function StyleKitPage() {
         <CatalogueGridSkeleton count={3} />
       </Section>
 
-      <Section title="Empty, setup and error states" note="The screens buyers hit when something is wrong.">
+      <Section
+        title="Empty, setup and error states"
+        note="The screens buyers hit when something is wrong."
+      >
         <div className="space-y-block">
           <CatalogueGrid products={[]} />
           <SetupNotice />

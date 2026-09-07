@@ -11,14 +11,16 @@
  * Which half applies is decided by `color-scheme`, set on :root in
  * app/globals.css to follow the operating system.
  *
- * To try another identity, change one line in app/globals.css:
+ * To try another identity, put a preset's class on <html> in app/layout.tsx:
  *
- *   @import './themes/warm.css';   warm paper, terracotta, soft and round
- *   @import './themes/bold.css';   high contrast, electric brand, pill controls
- *   @import './themes/mono.css';   editorial, square corners, no elevation
+ *   theme-warm   warm paper, terracotta, soft and round
+ *   theme-bold   high contrast, electric brand, pill controls
+ *   theme-mono   editorial, square corners, no elevation
  *
- * The typeface is the one brand decision that cannot live in CSS. It is in
- * app/fonts.ts, one import per role.
+ * Each preset overrides only what it changes, so everything it leaves alone
+ * is still this file. Two of the three also want a display face, which is the
+ * one brand decision that cannot live in CSS: it is in app/fonts.ts, one
+ * import per role. Read the preset's header; it names the pairing.
  *
  * Every pair below clears WCAG AA where it carries text. Run
  * `npm run check:contrast` after changing any of them.

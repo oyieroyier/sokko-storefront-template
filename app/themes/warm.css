@@ -1,16 +1,22 @@
 /*
  * Preset: "Warm". Cream paper, clay brand, generous radii, tall tiles.
- * Designed to pair with the Fraunces display face (see app/fonts.ts).
  *
- * Use it by changing one line in app/globals.css:
- *   @import './themes/warm.css';
+ * Wearing it takes two lines, because a theme is colour *and* typeface and
+ * CSS cannot reach the second one:
  *
- * Every preset imports the default and overrides only what it changes, so
- * the list below is exactly what makes this theme a different business.
+ *   app/layout.tsx   <html className={`theme-warm ${fontVariables}`}>
+ *   app/fonts.ts     const displayFont = Fraunces({ ... })
+ *
+ * Only the first is optional. Skip the font and you get warm colour under the
+ * default grotesk, which is a different, blander business than this one.
+ *
+ * Tokens live on a class rather than :root so /style can show every preset at
+ * once. The class beats the :root defaults in app/theme.css on source order,
+ * and inherits, so it works on <html> or on any subtree.
+ *
+ * Overrides only. Anything absent is inherited from app/theme.css.
  */
-@import '../theme.css';
-
-:root {
+.theme-warm {
   --page: light-dark(#fdfbf7, #16130f);
   --ink: light-dark(#23201c, #f2ece2);
   --surface: light-dark(#f4efe6, #1f1b16);
