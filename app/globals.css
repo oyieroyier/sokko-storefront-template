@@ -13,7 +13,8 @@
  * Once you have chosen, delete the imports you are not wearing. They are about
  * 300 bytes each and they are on every page until you do.
  *
- * See /style for all four side by side, plus every control and empty state.
+ * See /style for all four side by side, a picker that wears any of them for
+ * real, and every control and empty state.
  */
 @import './theme.css';
 @import './themes/warm.css';

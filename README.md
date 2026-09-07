@@ -38,9 +38,11 @@ pages render a short setup notice instead of failing.
 
 Then open **`/style`**. It is the whole kit on one page: every colour, every
 type size, every control, every loading, empty and error state, and all four
-themes side by side. It is how you check a rebrand in five seconds instead of
-clicking around the store hunting for the error screen you cannot reproduce.
-Delete the route before you go live if you like.
+themes side by side. The picker at the top puts any of them on the whole page,
+header and footer included, so you can try one before you commit to it. It is
+how you check a rebrand in five seconds instead of clicking around the store
+hunting for the error screen you cannot reproduce. Delete the route before you
+go live if you like.
 
 ## Make it yours
 

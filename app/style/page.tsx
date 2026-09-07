@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { ControlsPreview } from '@/app/style/ControlsPreview';
+import { ThemePicker } from '@/app/style/ThemePicker';
+import { presets } from '@/app/style/presets';
 import { CatalogueGrid } from '@/components/store/CatalogueGrid';
 import { CatalogueGridSkeleton } from '@/components/store/ProductTileSkeleton';
 import { SetupNotice } from '@/components/store/SetupNotice';
@@ -48,17 +50,6 @@ const swatches = [
   { token: '--success', className: 'bg-success' }
 ];
 
-/*
- * Every identity the template ships with. `className: ''` is app/theme.css as
- * written; the rest are the classes in app/themes.
- */
-const presets = [
-  { name: 'Studio', className: '', note: 'default — Bricolage Grotesque' },
-  { name: 'Warm', className: 'theme-warm', note: 'theme-warm — Fraunces' },
-  { name: 'Bold', className: 'theme-bold', note: 'theme-bold — Space Grotesk' },
-  { name: 'Mono', className: 'theme-mono', note: 'theme-mono — Inter' }
-];
-
 export default function StyleKitPage() {
   return (
     <div className="space-y-section">
@@ -69,6 +60,8 @@ export default function StyleKitPage() {
           Delete this route before you go live if you like.
         </p>
       </header>
+
+      <ThemePicker />
 
       <Section title="Colour" note="Edit these in app/theme.css. Dark mode follows automatically.">
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -140,7 +133,9 @@ export default function StyleKitPage() {
             >
               <div className="flex items-baseline justify-between gap-3">
                 <h3 className="type-display text-lg">{preset.name}</h3>
-                <p className="font-mono text-xs text-muted">{preset.note}</p>
+                <p className="font-mono text-xs text-muted">
+                  {preset.className || 'no class'} · {preset.face}
+                </p>
               </div>
 
               <ul className="flex gap-1.5">
