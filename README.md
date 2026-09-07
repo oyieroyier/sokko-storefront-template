@@ -12,8 +12,13 @@ One component tree, four identities: **Minimal**, **Neobrutalist**,
 **Editorial**, **Soft**. Nothing above is a fork. Stroke weight, colour, radius,
 tile ratio, elevation, case and rhythm are all tokens, and the only other
 difference is the typeface — the uppercase headings, 3px rules and hard offset
-shadows on the top right are the same components as the top left. Screenshots
-run against a live Sokko catalogue.
+shadows on the top right are the same components as the top left.
+
+Every image above is a real production build of this repo against a live Sokko
+catalogue, not a mockup. Regenerate them with `npm run screenshots`, which
+builds and photographs each theme in turn against whatever `.env.local` points
+at. Point it at a catalogue you own before you run it: these images go into a
+public repo, and a seller's products and models are theirs, not yours.
 
 ## What Sokko owns, what you own
 
@@ -230,6 +235,12 @@ is covered automatically. It is the check that catches the colour nobody
 looks at: an error line on a card, or text inside a tinted badge.
 
 `npm run build` succeeds with no `.env` at all, so a fresh clone always builds.
+
+`npm run screenshots` is not a check and is not part of any pipeline. It edits
+`app/fonts.ts` and `app/layout.tsx` to wear each preset, builds, shoots, and
+puts both files back — four production builds, so it takes a few minutes. It
+refuses to run if the rendered page has no products in it, because a screenshot
+of a store that failed to load still looks like a screenshot.
 
 ## License
 

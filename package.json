@@ -10,6 +10,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "screenshots": "node scripts/shoot-screenshots.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
